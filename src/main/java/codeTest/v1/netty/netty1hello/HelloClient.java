@@ -17,7 +17,7 @@ public class HelloClient {
 		this.port = port;
 	}
 	public void start() throws InterruptedException{
-		// ¿Í»§¶Ë½ö·¢ËÍÇëÇó, ²»ĞèÒª´¦ÀíÇëÇóÁ¬½ÓµÄÏß³Ì×é
+		// å®¢æˆ·ç«¯ä»…å‘é€è¯·æ±‚, ä¸éœ€è¦å¤„ç†è¯·æ±‚è¿æ¥çš„çº¿ç¨‹ç»„
 		EventLoopGroup group = new NioEventLoopGroup();
 		Bootstrap b = new Bootstrap();
 		b.group(group)
@@ -29,16 +29,16 @@ public class HelloClient {
 			}
 		});
 		
-		// Á¬½Ó·şÎñ¶Ë
+		// è¿æ¥æœåŠ¡ç«¯
 		ChannelFuture cf1 = b.connect("127.0.0.1", port).sync();
-		System.out.println("Á¬½Ó" + port + ".....");
-		//·¢ËÍÏûÏ¢ cf.channel() »ñÈ¡Í¨ĞÅ¹ÜµÀ
-		System.out.println("¿ªÊ¼·¢ËÍÊı¾İ......");
+		System.out.println("è¿æ¥" + port + ".....");
+		//å‘é€æ¶ˆæ¯ cf.channel() è·å–é€šä¿¡ç®¡é“
+		System.out.println("å¼€å§‹å‘é€æ•°æ®......");
 		cf1.channel().writeAndFlush(Unpooled.copiedBuffer("777".getBytes()));
-		System.out.println("·¢ËÍÊı¾İÍê³É......");
+		System.out.println("å‘é€æ•°æ®å®Œæˆ......");
 		cf1.channel().writeAndFlush(Unpooled.copiedBuffer("666".getBytes()));
 //		cf2.channel().writeAndFlush(Unpooled.copiedBuffer("888".getBytes()));
-		// ·¢µÄ¼ä¸ôÖ®¼äĞİÃß¼¸Ãë, ¿ÉÒÔ½«·¢ËÍĞÅÏ¢·Ö¿ª
+		// å‘çš„é—´éš”ä¹‹é—´ä¼‘çœ å‡ ç§’, å¯ä»¥å°†å‘é€ä¿¡æ¯åˆ†å¼€
 		Thread.sleep(2000);
 		cf1.channel().writeAndFlush(Unpooled.copiedBuffer("888".getBytes()));
 		//cf2.channel().writeAndFlush(Unpooled.copiedBuffer("666".getBytes()));

@@ -11,7 +11,7 @@ public class HelloServerHandler extends ChannelInboundHandlerAdapter{
 
 	
 	/**
-	 * Í¨µÀ¼¤»î
+	 * é€šé“æ¿€æ´»
 	 * @param ctx
 	 * @throws Exception
 	 */
@@ -21,7 +21,7 @@ public class HelloServerHandler extends ChannelInboundHandlerAdapter{
 
 
 	/**
-	 * ½ÓÊÕµ½¿Í»§¶Ë´«À´µÄÊı¾İ
+	 * æ¥æ”¶åˆ°å®¢æˆ·ç«¯ä¼ æ¥çš„æ•°æ®
 	 * @param ctx
 	 * @param msg
 	 * @throws Exception
@@ -33,16 +33,16 @@ public class HelloServerHandler extends ChannelInboundHandlerAdapter{
 		buf.readBytes(req);
 		String body = new String(req, "utf-8");
 		System.out.println("Server :" + body );
-		String response = "½øĞĞ·µ»Ø¸ø¿Í»§¶ËµÄÏìÓ¦£º" + body ;
-		// ¸ø¿Í»§¶ËÏàÓ¦ĞÅÏ¢ÊÇÒì²½µÄ, ¿ÉÒÔÍ¨¹ıÌí¼Ó»Øµ÷·½·¨, ÖªµÀÊÇ·ñ·¢ËÍĞÅÏ¢Íê³É
+		String response = "è¿›è¡Œè¿”å›ç»™å®¢æˆ·ç«¯çš„å“åº”ï¼š" + body ;
+		// ç»™å®¢æˆ·ç«¯ç›¸åº”ä¿¡æ¯æ˜¯å¼‚æ­¥çš„, å¯ä»¥é€šè¿‡æ·»åŠ å›è°ƒæ–¹æ³•, çŸ¥é“æ˜¯å¦å‘é€ä¿¡æ¯å®Œæˆ
 		ChannelFuture f = ctx.writeAndFlush(Unpooled.copiedBuffer(response.getBytes()));
-		// ±íÊ¾·şÎñ¶Ë·¢ËÍĞÅÏ¢Íê³Éºó¹Ø±ÕÁ¬½Ó 
+		// è¡¨ç¤ºæœåŠ¡ç«¯å‘é€ä¿¡æ¯å®Œæˆåå…³é—­è¿æ¥ 
 			f.addListener(ChannelFutureListener.CLOSE);
 	}
 
 //	public void channelReadComplete(ChannelHandlerContext ctx)
 //			throws Exception {
-//		System.out.println("¶ÁÍêÁË");
+//		System.out.println("è¯»å®Œäº†");
 //		ctx.flush();
 //	}
 

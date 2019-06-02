@@ -17,18 +17,18 @@ import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.LastHttpContent;
 /**
- * netty¹æÔò: ·½·¨ºóÃæ¼Ó0, ¶¼ÊÇÊµÏÖÀàµÄ·½·¨, ²»ÊÇ½Ó¿ÚµÄ·½·¨
+ * nettyè§„åˆ™: æ–¹æ³•åé¢åŠ 0, éƒ½æ˜¯å®ç°ç±»çš„æ–¹æ³•, ä¸æ˜¯æ¥å£çš„æ–¹æ³•
  * @author maj
- * nettyÖĞ, Ìá¹©ÁË·Ç³£·á¸»µÄ¹¤¾ßÀà, ÄÃµ½µÄÒÑ¾­ÊÇ½á¹ûÁË, ²»Òª×ö¹ı¶àµÄ´¦Àí
+ * nettyä¸­, æä¾›äº†éå¸¸ä¸°å¯Œçš„å·¥å…·ç±», æ‹¿åˆ°çš„å·²ç»æ˜¯ç»“æœäº†, ä¸è¦åšè¿‡å¤šçš„å¤„ç†
  *
  */
 public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest>{
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
-		// »ñÈ¡url
+		// è·å–url
 		String uri = request.uri();
-		// Èç¹û·ÃÎÊurlÃ»ÓĞÖµ, Ä¬ÈÏ·ÃÎÊchat.html
+		// å¦‚æœè®¿é—®urlæ²¡æœ‰å€¼, é»˜è®¤è®¿é—®chat.html
 		String page = uri.equals("/") ? "/chat.html" : uri;
 		
 		RandomAccessFile file = new RandomAccessFile(getFileFromRoot(page), "r");
@@ -52,11 +52,11 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest>{
 			response.headers().set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
 		}
 		
-		// Ğ´Ğ­Òé, Ğ´ÎÄ¼ş
+		// å†™åè®®, å†™æ–‡ä»¶
 		ctx.write(response);
 		ctx.write(new DefaultFileRegion(file.getChannel(), 0, file.length()));
 		
-		// Çå¿Õ»º³åÇø
+		// æ¸…ç©ºç¼“å†²åŒº
 		ChannelFuture f = ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);
 		if(!isKeepAlive){
 			f.addListener(ChannelFutureListener.CLOSE);
@@ -65,13 +65,13 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest>{
 		file.close();
 	}
 	
-	// classPath »ñÈ¡ÀàµÄ¸ùÄ¿Â¼
+	// classPath è·å–ç±»çš„æ ¹ç›®å½•
 	private URL baseUrl = HttpHandler.class.getProtectionDomain().getCodeSource().getLocation();
 	
 	private final String WEB_ROOT = "webroot";
 	
 	/**
-	 * ´Ó¸ùÄ¿Â¼²éÕÒ×ÊÔ´¶ÔÏó
+	 * ä»æ ¹ç›®å½•æŸ¥æ‰¾èµ„æºå¯¹è±¡
 	 * @param fileName
 	 * @return
 	 * @throws URISyntaxException

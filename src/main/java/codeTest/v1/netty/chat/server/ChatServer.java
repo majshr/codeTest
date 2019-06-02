@@ -1,8 +1,5 @@
 package codeTest.v1.netty.chat.server;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import codeTest.v1.netty.chat.server.handler.HttpHandler;
 import codeTest.v1.netty.chat.server.handler.WebSocketHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -39,24 +36,24 @@ public class ChatServer {
 
 				@Override
 				protected void initChannel(SocketChannel ch) throws Exception {
-					/*************±àÂëºÍ½âÂëhttpÇëÇó***********************/
-					// ÇëÇóºÍÏàÓ¦Âë½âÎöÎªhttpÏûÏ¢(HttpRequestDecoder ºÍ HttpResponseEncoder µÄ½áºÏ)
-					/* µ«ÊÇÖ»ÄÜ½âÎöhttp getÇëÇó(²ÎÊı°üº¬ÔÚuriÖĞ, Òò´ËÍ¨¹ıHttpRequest¾ÍÄÜ½âÎö³öÇëÇó²ÎÊı.),
-					¶ÔÓÚhttp postÇëÇó, ²ÎÊıĞÅÏ¢·ÅÔÚmessage bodyÖĞ, ¶ÔÓ¦nettyÀ´ËµÊÇHttpMessage, ËùÒÔÕâ¸ö±àÂëÆ÷²»ÄÜÍêÈ«½âÎöpost
-					HTTP POST ÇëÇóÊ±£¬ÇëÎñ±ØÔÚ ChannelPipeline ÖĞ¼ÓÉÏ HttpObjectAggregator(¿ÉÒÔ°Ñ HttpMessage ºÍ HttpContent
-					 ¾ÛºÏ³ÉÒ»¸ö FullHttpRequest »òÕß FullHttpResponse £¨È¡¾öÓÚÊÇ´¦ÀíÇëÇó»¹ÊÇÏìÓ¦£©£¬¶øÇÒËü»¹¿ÉÒÔ°ï
-					 ÖúÄãÔÚ½âÂëÊ±ºöÂÔÊÇ·ñÎª¡°¿é¡±´«Êä·½Ê½¡£)
+					/*************ç¼–ç å’Œè§£ç httpè¯·æ±‚***********************/
+					// è¯·æ±‚å’Œç›¸åº”ç è§£æä¸ºhttpæ¶ˆæ¯(HttpRequestDecoder å’Œ HttpResponseEncoder çš„ç»“åˆ)
+					/* ä½†æ˜¯åªèƒ½è§£æhttp getè¯·æ±‚(å‚æ•°åŒ…å«åœ¨uriä¸­, å› æ­¤é€šè¿‡HttpRequestå°±èƒ½è§£æå‡ºè¯·æ±‚å‚æ•°.),
+					å¯¹äºhttp postè¯·æ±‚, å‚æ•°ä¿¡æ¯æ”¾åœ¨message bodyä¸­, å¯¹åº”nettyæ¥è¯´æ˜¯HttpMessage, æ‰€ä»¥è¿™ä¸ªç¼–ç å™¨ä¸èƒ½å®Œå…¨è§£æpost
+					HTTP POST è¯·æ±‚æ—¶ï¼Œè¯·åŠ¡å¿…åœ¨ ChannelPipeline ä¸­åŠ ä¸Š HttpObjectAggregator(å¯ä»¥æŠŠ HttpMessage å’Œ HttpContent
+					 èšåˆæˆä¸€ä¸ª FullHttpRequest æˆ–è€… FullHttpResponse ï¼ˆå–å†³äºæ˜¯å¤„ç†è¯·æ±‚è¿˜æ˜¯å“åº”ï¼‰ï¼Œè€Œä¸”å®ƒè¿˜å¯ä»¥å¸®
+					 åŠ©ä½ åœ¨è§£ç æ—¶å¿½ç•¥æ˜¯å¦ä¸ºâ€œå—â€ä¼ è¾“æ–¹å¼ã€‚)
 					*/
 					ch.pipeline().addLast(new HttpServerCodec());
-					// http×ª»»½âÎöÆ÷(httpÏûÏ¢µÄ¶à¸ö²¿·ÖºÏ²¢³ÉÒ»¸öÍêÕûµØhttpÏûÏ¢)
+					// httpè½¬æ¢è§£æå™¨(httpæ¶ˆæ¯çš„å¤šä¸ªéƒ¨åˆ†åˆå¹¶æˆä¸€ä¸ªå®Œæ•´åœ°httpæ¶ˆæ¯)
 					ch.pipeline().addLast(new HttpObjectAggregator(64 * 1024));
-					// ÓÃÓÚ´¦ÀíÎÄ¼şÁ÷Ò»¸öhandler, Ğ´³öÎÄ¼ş½âÎöÆ÷(Ïò¿Í»§¶Ë·¢ËÍhtml5ÎÄ¼ş)
+					// ç”¨äºå¤„ç†æ–‡ä»¶æµä¸€ä¸ªhandler, å†™å‡ºæ–‡ä»¶è§£æå™¨(å‘å®¢æˆ·ç«¯å‘é€html5æ–‡ä»¶)
 					ch.pipeline().addLast(new ChunkedWriteHandler());
-					//×Ô¶¨Òå´¦ÀíÆ÷
+					//è‡ªå®šä¹‰å¤„ç†å™¨
 					ch.pipeline().addLast(new HttpHandler());
 					
-					/*************Ö§³ÖwebsocketĞ­Òé*************/
-					// ws://im¶¼ÈÏÎªÊÇwebsocketµÄ¶«Î÷
+					/*************æ”¯æŒwebsocketåè®®*************/
+					// ws://iméƒ½è®¤ä¸ºæ˜¯websocketçš„ä¸œè¥¿
 					ch.pipeline().addLast(new WebSocketServerProtocolHandler("/im"));
 					ch.pipeline().addLast(new WebSocketHandler());
 				}
@@ -64,7 +61,7 @@ public class ChatServer {
 			});
 			
 			ChannelFuture f = b.bind(this.port).sync();
-			System.out.println("·şÎñÒÑ¾­Æô¶¯, ¼àÌı¶Ë¿Ú" + this.port);
+			System.out.println("æœåŠ¡å·²ç»å¯åŠ¨, ç›‘å¬ç«¯å£" + this.port);
 			f.channel().closeFuture().sync();
 		} catch (InterruptedException e) {
 			e.printStackTrace();

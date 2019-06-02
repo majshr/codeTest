@@ -1,6 +1,5 @@
 package codeTest.v1.annotations.example;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 import codeTest.v1.annotations.example.anno.Column;
@@ -8,28 +7,31 @@ import codeTest.v1.annotations.example.anno.Table;
 
 public class Main {
 	/**
-	 * ¸ù¾İ¹ıÂËĞÅÏ¢, ½øĞĞ²éÑ¯
-	 * userFilter Èç¹û×Ö¶Î²»Îª¿Õ, ÔÚsqlÖĞÌí¼Ó¹ıÂËÌõ¼ş
+	 * æ ¹æ®è¿‡æ»¤ä¿¡æ¯, è¿›è¡ŒæŸ¥è¯¢
+	 * userFilter å¦‚æœå­—æ®µä¸ä¸ºç©º, åœ¨sqlä¸­æ·»åŠ è¿‡æ»¤æ¡ä»¶
 	 * @throws IllegalAccessException 
 	 * @throws IllegalArgumentException 
 	 */
 	public static void query(UserFilter userFilter) throws IllegalArgumentException, IllegalAccessException{
-		Class c = userFilter.getClass();
+		Class<? extends UserFilter> c = userFilter.getClass();
 		StringBuilder sql = new StringBuilder();
 		
-		// »ñÈ¡table×¢½âÊµÀı, ÉèÖÃ±íĞÅÏ¢
-		if(c.isAnnotationPresent(Table.class)){
-			Table table = (Table) c.getAnnotation(Table.class);
-			String tableName = table.value();
-			
-			sql.append("select * from ").append(tableName).append(" where 1=1 ");
+		
+		if(!c.isAnnotationPresent(Table.class)){
+			return ;
 		}
 		
-		// »ñÈ¡×Ö¶Î×¢½âĞÅÏ¢(getDeclaredFields»ñÈ¡ËùÓĞ, °üÀ¨¹«Ë½ÓĞ)
+		// è·å–tableæ³¨è§£å®ä¾‹, è®¾ç½®è¡¨ä¿¡æ¯
+		sql.append("select * from ")
+			.append(c.getAnnotation(Table.class).value())
+			.append(" where 1=1 ");
+		
+		// è·å–å­—æ®µæ³¨è§£ä¿¡æ¯(getDeclaredFieldsè·å–æ‰€æœ‰, åŒ…æ‹¬å…¬ç§æœ‰)
 		Field[] fields = c.getDeclaredFields();
 		for(Field field : fields){
-			// ÉèÖÃË½ÓĞÊôĞÔÖµ¿É´ï, ·ñÔòÎŞ·¨¸ù¾İ·´Éä»ñÈ¡×Ö¶ÎÖµ
+			// è®¾ç½®ç§æœ‰å±æ€§å€¼å¯è¾¾, å¦åˆ™æ— æ³•æ ¹æ®åå°„è·å–å­—æ®µå€¼
 			field.setAccessible(true);
+			// è·å–å¯¹è±¡çš„filedå­—æ®µå¯¹è±¡
 			Object fieldObj = field.get(userFilter);
 			String fieldVal = null;
 			if(fieldObj != null){

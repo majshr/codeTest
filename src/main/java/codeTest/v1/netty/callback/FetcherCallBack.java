@@ -1,6 +1,6 @@
 package codeTest.v1.netty.callback;
 /**
- * 回调接口
+ * 鍥炶皟鏂规硶鎺ュ彛
  * @author maj
  *
  */

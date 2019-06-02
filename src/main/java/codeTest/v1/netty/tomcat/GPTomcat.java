@@ -13,43 +13,43 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
 
 public class GPTomcat {
 	public void start(int port) throws Exception{
-		/*Ö÷´ÓÏß³ÌÄ£ĞÍ*/
-		// boss Ïß³Ì
+		/*ä¸»ä»çº¿ç¨‹æ¨¡å‹*/
+		// boss çº¿ç¨‹
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
-		// workerÏß³Ì
+		// workerçº¿ç¨‹
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try{
-			//netty·şÎñ, Á´Â·Ê½±à³Ì
+			//nettyæœåŠ¡, é“¾è·¯å¼ç¼–ç¨‹
 			ServerBootstrap server = new ServerBootstrap();
 			server.group(bossGroup, workerGroup)
-			// Ö÷Ïß³Ì´¦ÀíÀà
+			// ä¸»çº¿ç¨‹å¤„ç†ç±»
 			.channel(NioServerSocketChannel.class)
-			// ×ÓÏß³Ì´¦ÀíÀà
+			// å­çº¿ç¨‹å¤„ç†ç±»
 			.childHandler(new ChannelInitializer<SocketChannel>() {
 
 				@Override
 				protected void initChannel(SocketChannel client) throws Exception {
-					/** ÎŞËø»¯´®ĞĞ±à³Ì */
-					// ÒµÎñÂß¼­Á´Â·
-					//±àÂëÆ÷
+					/** æ— é”åŒ–ä¸²è¡Œç¼–ç¨‹ */
+					// ä¸šåŠ¡é€»è¾‘é“¾è·¯
+					//ç¼–ç å™¨
 					client.pipeline().addLast(new HttpResponseEncoder());
-					//½âÂëÆ÷
+					//è§£ç å™¨
 					client.pipeline().addLast(new HttpRequestDecoder());
 					
-					//ÒµÎñÂß¼­´¦Àí
+					//ä¸šåŠ¡é€»è¾‘å¤„ç†
 					client.pipeline().addLast(new TomcatHanlder());
 					
 				}
 				
 			})
-			// ÅäÖÃĞÅÏ¢
-			.option(ChannelOption.SO_BACKLOG, 128) //Õë¶ÔÖ÷Ïß³Ì  128±íÊ¾·ÖÅäÏß³ÌµÄ×î´óÊıÁ¿
-			.childOption(ChannelOption.SO_KEEPALIVE, true); //Õë¶Ô×ÓÏß³Ì  ¿Í»§¶ËÇëÇó¹ıÀ´, Îª³¤Á¬½Ó(keeplive)
+			// é…ç½®ä¿¡æ¯
+			.option(ChannelOption.SO_BACKLOG, 128) //é’ˆå¯¹ä¸»çº¿ç¨‹  128è¡¨ç¤ºåˆ†é…çº¿ç¨‹çš„æœ€å¤§æ•°é‡
+			.childOption(ChannelOption.SO_KEEPALIVE, true); //é’ˆå¯¹å­çº¿ç¨‹  å®¢æˆ·ç«¯è¯·æ±‚è¿‡æ¥, ä¸ºé•¿è¿æ¥(keeplive)
 			
-			// ×èÈû
+			// é˜»å¡
 			ChannelFuture f = server.bind(port).sync();
 			
-			System.out.println("Tomcat selfÒÑ¾­Æô¶¯!");
+			System.out.println("Tomcat selfå·²ç»å¯åŠ¨!");
 			
 			f.channel().closeFuture().sync();			
 		}finally{

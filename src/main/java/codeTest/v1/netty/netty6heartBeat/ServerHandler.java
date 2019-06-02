@@ -24,13 +24,13 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 	}
 	
 	/**
-	 * ÑéÖ¤¿Í»§¶Ë·¢¹ıÀ´µÄÑéÖ¤ĞÅÏ¢ÊÇ·ñÕıÈ·
+	 * éªŒè¯å®¢æˆ·ç«¯å‘è¿‡æ¥çš„éªŒè¯ä¿¡æ¯æ˜¯å¦æ­£ç¡®
 	 * @param ctx
 	 * @param auth
 	 * @return {@link Boolean}
 	 */
 	private boolean auth(ChannelHandlerContext ctx, String auth){
-		// ÊÕµ½slaveÈÏÖ¤ĞÅÏ¢
+		// æ”¶åˆ°slaveè®¤è¯ä¿¡æ¯
 		if(auth.contains(",")){
 			String[] strs = auth.split(",");
 			String ip = strs[0];
@@ -38,19 +38,19 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 			
 			
 			if(key.equals(AUTH_IP_MAP.get(ip))){
-				// ÑéÖ¤Í¨¹ı, Ïò¿Í»§¶Ë·¢ËÍÑéÖ¤Í¨¹ıĞÅÏ¢
+				// éªŒè¯é€šè¿‡, å‘å®¢æˆ·ç«¯å‘é€éªŒè¯é€šè¿‡ä¿¡æ¯
 				ctx.writeAndFlush(SUCCESS_KEY);
 				return true;
 			}	
 		}
 		
-		// ÑéÖ¤Ê§°Ü, Í¨Öª¿Í»§¶ËÊ§°Ü, ²¢¹Ø±ÕÁ¬½Ó
+		// éªŒè¯å¤±è´¥, é€šçŸ¥å®¢æˆ·ç«¯å¤±è´¥, å¹¶å…³é—­è¿æ¥
 		ctx.writeAndFlush("auth failure! ").addListener(ChannelFutureListener.CLOSE);
 		return false;
 	}
 	
 	/**
-	 * ½ÓÊÕµ½¿Í»§¶Ë´«À´µÄÊı¾İ
+	 * æ¥æ”¶åˆ°å®¢æˆ·ç«¯ä¼ æ¥çš„æ•°æ®
 	 * @param ctx
 	 * @param msg
 	 * @throws Exception
@@ -58,31 +58,31 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		if(msg instanceof String){
-			// ÈÏÖ¤ĞÅÏ¢
+			// è®¤è¯ä¿¡æ¯
 			auth(ctx, (String)msg);
 		} else if(msg instanceof Request){
-			// ĞÄÌøĞÅÏ¢
+			// å¿ƒè·³ä¿¡æ¯
 			Request info = (Request) msg;
 			System.out.println("--------------------------------------------");
-			System.out.println("µ±Ç°Ö÷»úipÎª: " + info.getIp());
-			System.out.println("µ±Ç°Ö÷»úcpuÇé¿ö: ");
+			System.out.println("å½“å‰ä¸»æœºipä¸º: " + info.getIp());
+			System.out.println("å½“å‰ä¸»æœºcpuæƒ…å†µ: ");
 			HashMap<String, Object> cpu = info.getCpuPercMap();
-			System.out.println("×ÜÊ¹ÓÃÂÊ: " + cpu.get("combined"));
-			System.out.println("ÓÃ»§Ê¹ÓÃÂÊ: " + cpu.get("user"));
-			System.out.println("ÏµÍ³Ê¹ÓÃÂÊ: " + cpu.get("sys"));
-			System.out.println("µÈ´ıÂÊ: " + cpu.get("wait"));
-			System.out.println("¿ÕÏĞÂÊ: " + cpu.get("idle"));
+			System.out.println("æ€»ä½¿ç”¨ç‡: " + cpu.get("combined"));
+			System.out.println("ç”¨æˆ·ä½¿ç”¨ç‡: " + cpu.get("user"));
+			System.out.println("ç³»ç»Ÿä½¿ç”¨ç‡: " + cpu.get("sys"));
+			System.out.println("ç­‰å¾…ç‡: " + cpu.get("wait"));
+			System.out.println("ç©ºé—²ç‡: " + cpu.get("idle"));
 			
-			System.out.println("µ±Ç°Ö÷»úmemoryÇé¿ö: ");
+			System.out.println("å½“å‰ä¸»æœºmemoryæƒ…å†µ: ");
 			HashMap<String, Object> memory = info.getMemoryMap();
-			System.out.println("ÄÚ´æ×ÜÁ¿: " + memory.get("total"));
-			System.out.println("µ±Ç°ÄÚ´æÊ¹ÓÃÁ¿: " + memory.get("used"));
-			System.out.println("µ±Ç°ÄÚ´æÊ£ÓàÁ¿: " + memory.get("free"));
+			System.out.println("å†…å­˜æ€»é‡: " + memory.get("total"));
+			System.out.println("å½“å‰å†…å­˜ä½¿ç”¨é‡: " + memory.get("used"));
+			System.out.println("å½“å‰å†…å­˜å‰©ä½™é‡: " + memory.get("free"));
 			System.out.println("--------------------------------------------");
 			
 			ctx.writeAndFlush("info received!");
 		} else{
-			//  ÇëÇó´íÎó, ¹Ø±ÕÁ¬½Ó
+			//  è¯·æ±‚é”™è¯¯, å…³é—­è¿æ¥
 			ctx.writeAndFlush("connect failure!").addListener(ChannelFutureListener.CLOSE);
 		}
 	}

@@ -13,11 +13,11 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 
 public class HttpHelloWordServer {
     static final boolean SSL = System.getProperty("ssl") != null;
-	  // 8080端口
+	  // 8080绔彛
     static final int PORT = Integer.parseInt(System.getProperty("port", SSL? "8443" : "8080"));
 
     public static void main(String[] args) throws Exception {
-        // Configure SSL. SSL协议的一些netty封装
+        // Configure SSL. SSL鍗忚鐨勪竴浜沶etty灏佽
         final SslContext sslCtx;
         if (SSL) {
             SelfSignedCertificate ssc = new SelfSignedCertificate();

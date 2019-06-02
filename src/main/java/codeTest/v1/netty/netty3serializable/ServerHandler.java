@@ -15,7 +15,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 
 	
 	/**
-	 * Í¨µÀ¼¤»î
+	 * é€šé“æ¿€æ´»
 	 * @param ctx
 	 * @throws Exception
 	 */
@@ -26,7 +26,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 
 
 	/**
-	 * ½ÓÊÕµ½¿Í»§¶Ë´«À´µÄÊı¾İ
+	 * æ¥æ”¶åˆ°å®¢æˆ·ç«¯ä¼ æ¥çš„æ•°æ®
 	 * @param ctx
 	 * @param msg
 	 * @throws Exception
@@ -34,22 +34,22 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		
-		/****»ñÈ¡ÇëÇóĞÅÏ¢*****/
+		/****è·å–è¯·æ±‚ä¿¡æ¯*****/
 		Request request = (Request) msg;
 		System.out.println(request);
-		// ½ÓÊÕÎÄ¼ş
-		// ÎÄ¼şÊı×é
+		// æ¥æ”¶æ–‡ä»¶
+		// æ–‡ä»¶æ•°ç»„
 		byte[] data = GzipUtils.ungzip(request.getAttachment());
 		File file = new File("C:\\Users\\maj\\Desktop\\netty_copy\\spring" + request.getId() + ".java");
 		FileOutputStream fos = new FileOutputStream(file);
 		fos.write(data);
 		
-		/*****·¢ËÍÏìÓ¦ĞÅÏ¢************/
-		// ¸ø¿Í»§¶ËÏàÓ¦ĞÅÏ¢ÊÇÒì²½µÄ, ¿ÉÒÔÍ¨¹ıÌí¼Ó»Øµ÷·½·¨, ÖªµÀÊÇ·ñ·¢ËÍĞÅÏ¢Íê³É
+		/*****å‘é€å“åº”ä¿¡æ¯************/
+		// ç»™å®¢æˆ·ç«¯ç›¸åº”ä¿¡æ¯æ˜¯å¼‚æ­¥çš„, å¯ä»¥é€šè¿‡æ·»åŠ å›è°ƒæ–¹æ³•, çŸ¥é“æ˜¯å¦å‘é€ä¿¡æ¯å®Œæˆ
 		Response response = new Response();
 		response.setId(request.getId());
 		response.setName("resp" + request.getId());
-		response.setResponseMessage("ÏìÓ¦ÄÚÈİ" + request.getId());
+		response.setResponseMessage("å“åº”å†…å®¹" + request.getId());
 		ctx.writeAndFlush(response);
 	}
 	

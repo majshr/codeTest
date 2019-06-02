@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * 异步设计, 不断判断是否完成计算
+ * Future娴嬭瘯
  * @author maj
  *
  */

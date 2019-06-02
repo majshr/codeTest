@@ -21,7 +21,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter{
 	private static final String SUCCESS_KEY = "auth_success_key";
 	
 	/**
-	 * ¶¨Ê±ÈÎÎñ
+	 * å®šæ—¶ä»»åŠ¡
 	 */
 	private static final ScheduledExecutorService schedule = 
 			Executors.newScheduledThreadPool(1);
@@ -30,12 +30,12 @@ public class ClientHandler extends ChannelInboundHandlerAdapter{
 	
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		// Í¨µÀ¼¤»îºó, clientÏÈÏò·şÎñ¶Ë·¢ËÍÈÏÖ¤ĞÅÏ¢
-		// ÈÏÖ¤ĞÅÏ¢Îªip_ip»úÆ÷¶ÔÓ¦µÄÈÏÖ¤key
+		// é€šé“æ¿€æ´»å, clientå…ˆå‘æœåŠ¡ç«¯å‘é€è®¤è¯ä¿¡æ¯
+		// è®¤è¯ä¿¡æ¯ä¸ºip_ipæœºå™¨å¯¹åº”çš„è®¤è¯key
 		ip = InetAddress.getLocalHost().getHostAddress();
 		String key = "123456";
 		
-		// Æ´½ÓÈÏÖ¤ĞÅÏ¢, ·¢ËÍ¸ø·şÎñ¶Ë
+		// æ‹¼æ¥è®¤è¯ä¿¡æ¯, å‘é€ç»™æœåŠ¡ç«¯
 		String auth = ip + "," + key;
 		ctx.writeAndFlush(auth);
 	}
@@ -48,15 +48,15 @@ public class ClientHandler extends ChannelInboundHandlerAdapter{
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		try {
 			if(msg instanceof String){
-				// ÈÏÖ¤ÊÇ·ñÍ¨¹ıĞÅÏ¢
+				// è®¤è¯æ˜¯å¦é€šè¿‡ä¿¡æ¯
 				String authRes = (String) msg;
-				// Èç¹ûÈÏÖ¤³É¹¦, ¶¨Ê±·¢ËÍĞÄÌø
+				// å¦‚æœè®¤è¯æˆåŠŸ, å®šæ—¶å‘é€å¿ƒè·³
 				if(SUCCESS_KEY.equals(authRes)){
-					// 2sÖ®ºóÖ´ĞĞÒ»´Î, Ö®ºóÃ¿3sÖ´ĞĞÒ»´Î
+					// 2sä¹‹åæ‰§è¡Œä¸€æ¬¡, ä¹‹åæ¯3sæ‰§è¡Œä¸€æ¬¡
 					schedule.scheduleWithFixedDelay(new HeartBeatTask(ctx), 
 							2, 3, TimeUnit.SECONDS);
 				}else{
-					// ÈÏÖ¤Ê§°Ü, ´òÓ¡ÈÏÖ¤ĞÅÏ¢, Á¬½Ó±»¹Ø±Õ
+					// è®¤è¯å¤±è´¥, æ‰“å°è®¤è¯ä¿¡æ¯, è¿æ¥è¢«å…³é—­
 					System.out.println(msg);
 				}
 			}
@@ -67,14 +67,14 @@ public class ClientHandler extends ChannelInboundHandlerAdapter{
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		// ¹Ø±ÕÏß³Ì³Ø
+		// å…³é—­çº¿ç¨‹æ± 
 		schedule.shutdown();
 		cause.printStackTrace();
 		ctx.close();
 	}	
 	
 	/**
-	 * ¶¨Ê±ĞÄÌø·¢ËÍÈÎÎñ
+	 * å®šæ—¶å¿ƒè·³å‘é€ä»»åŠ¡
 	 * @author maj
 	 *
 	 */
@@ -110,7 +110,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter{
 				request.setCpuPercMap(cpuPercMap);
 				request.setMemoryMap(memoryMap);
 				
-				// ·¢ËÍÇëÇóĞÅÏ¢
+				// å‘é€è¯·æ±‚ä¿¡æ¯
 				ctx.writeAndFlush(request);
 			} catch (SigarException e) {
 				e.printStackTrace();

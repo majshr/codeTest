@@ -10,12 +10,12 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * ¶Ô¶ş½øÖÆÊı¾İ½øĞĞÑ¹ËõºÍ½âÑ¹Ëõ¹¤¾ßÀà
+ * å¯¹äºŒè¿›åˆ¶æ•°æ®è¿›è¡Œå‹ç¼©å’Œè§£å‹ç¼©å·¥å…·ç±»
  * @author maj
  */
 public class GzipUtils {
 	/**
-	 * Ñ¹Ëõ×Ö½ÚÊı×é
+	 * å‹ç¼©å­—èŠ‚æ•°ç»„
 	 * @param data
 	 * @return byte[]
 	 * @throws IOException
@@ -33,9 +33,9 @@ public class GzipUtils {
 	}
 	
 	/**
-	 * ½âÑ¹ËõÊı¾İ½øĞĞ½âÑ¹Ëõ
-	 * @param data Ñ¹ËõºóµÄÊı¾İ
-	 * @return byte[] Ô­±¾µÄÊı¾İ
+	 * è§£å‹ç¼©æ•°æ®è¿›è¡Œè§£å‹ç¼©
+	 * @param data å‹ç¼©åçš„æ•°æ®
+	 * @return byte[] åŸæœ¬çš„æ•°æ®
 	 * @throws IOException 
 	 */
 	public static byte[] ungzip(byte[] data) throws IOException{
@@ -46,7 +46,7 @@ public class GzipUtils {
 		int num = -1;
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		while((num = gzip.read(buf, 0, buf.length)) != -1){
-			// ½«½âÑ¹ËõºóµÄ×Ö½ÚÊı×éÆ´½ÓÆğÀ´
+			// å°†è§£å‹ç¼©åçš„å­—èŠ‚æ•°ç»„æ‹¼æ¥èµ·æ¥
 			bos.write(buf, 0, num);
 		}
 		
@@ -61,7 +61,7 @@ public class GzipUtils {
 	
     public static void main(String[] args) throws Exception{
 		
-    	//¶ÁÈ¡ÎÄ¼ş
+    	//è¯»å–æ–‡ä»¶
     	String readPath = "C:\\Users\\maj\\Desktop\\spring.java";
         File file = new File(readPath);  
         FileInputStream in = new FileInputStream(file);  
@@ -69,16 +69,16 @@ public class GzipUtils {
         in.read(data);  
         in.close();  
         
-        System.out.println("ÎÄ¼şÔ­Ê¼´óĞ¡:" + data.length);
-        //²âÊÔÑ¹Ëõ
+        System.out.println("æ–‡ä»¶åŸå§‹å¤§å°:" + data.length);
+        //æµ‹è¯•å‹ç¼©
         
         byte[] ret1 = GzipUtils.gzip(data);
-        System.out.println("Ñ¹ËõÖ®ºó´óĞ¡:" + ret1.length);
+        System.out.println("å‹ç¼©ä¹‹åå¤§å°:" + ret1.length);
         
         byte[] ret2 = GzipUtils.ungzip(ret1);
-        System.out.println("»¹Ô­Ö®ºó´óĞ¡:" + ret2.length);
+        System.out.println("è¿˜åŸä¹‹åå¤§å°:" + ret2.length);
         
-        //Ğ´³öÎÄ¼ş
+        //å†™å‡ºæ–‡ä»¶
         String writePath = "C:\\Users\\maj\\Desktop\\spring_copy.java";
         FileOutputStream fos = new FileOutputStream(writePath);
         fos.write(ret2);

@@ -6,8 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * ¶ÔÏóÓëÊı¾İ¿â±íÓ³Éä
- * ÉúÃüÖÜÆÚÔËĞĞÊ±ÓĞĞ§, ÓÃÓÚÃèÊö×Ö¶Î
+ * å¯¹è±¡ä¸æ•°æ®åº“è¡¨æ˜ å°„
+ * ç”Ÿå‘½å‘¨æœŸè¿è¡Œæ—¶æœ‰æ•ˆ, ç”¨äºæè¿°å­—æ®µ
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

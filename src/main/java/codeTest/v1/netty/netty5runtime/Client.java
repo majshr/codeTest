@@ -39,7 +39,7 @@ public class Client {
 	}
 	
 	/**
-	 * »ñÈ¡ChannelFuture¶ÔÏó(Èç¹ûchannel¹Ø±Õ, ÖØĞÂÁ¬½Ó)
+	 * è·å–ChannelFutureå¯¹è±¡(å¦‚æœchannelå…³é—­, é‡æ–°è¿æ¥)
 	 * @return
 	 */
 	public ChannelFuture getChannelFuture(){
@@ -55,14 +55,14 @@ public class Client {
 	}
 
 	/**
-	 * ¿Í»§¶Ëµ¥Àı
+	 * å®¢æˆ·ç«¯å•ä¾‹
 	 */
 	public static Client getInstance(){
 		return Instance.instance;
 	}
 	
 	/**
-	 * ³õÊ¼»¯Ê±, ´´½¨Á¬½Ó
+	 * åˆå§‹åŒ–æ—¶, åˆ›å»ºè¿æ¥
 	 */
 	private Client(){
 		group = new NioEventLoopGroup();
@@ -72,13 +72,13 @@ public class Client {
 		.handler(new ChannelInitializer<SocketChannel>() {
 			@Override
 			protected void initChannel(SocketChannel sc) throws Exception {
-				// ÉèÖÃmarshalling±à½âÂëÆ÷
+				// è®¾ç½®marshallingç¼–è§£ç å™¨
 				sc.pipeline().addLast(MarshallingCodeFactory.buildMarshallingEncoder())
 				.addLast(MarshallingCodeFactory.buildMarshllingDecoder());
 				
-				// ³¬Ê±handler, µ±·şÎñÆ÷¶ËÓë¿Í»§¶ËÔÚÖ¸¶¨Ê±¼äÒÔÉÏÃ»ÓĞÈÎºÎÍ¨ĞÅ, Ôò»á¹Ø±ÕÏìÓ¦Í¨µÀ, Ö÷ÒªÎª¼õĞ¡·şÎñ×ÊÔ´Õ¼ÓÃ
+				// è¶…æ—¶handler, å½“æœåŠ¡å™¨ç«¯ä¸å®¢æˆ·ç«¯åœ¨æŒ‡å®šæ—¶é—´ä»¥ä¸Šæ²¡æœ‰ä»»ä½•é€šä¿¡, åˆ™ä¼šå…³é—­å“åº”é€šé“, ä¸»è¦ä¸ºå‡å°æœåŠ¡èµ„æºå ç”¨
 				// 5s
-				// ¿Í»§¶Ë²»¼ÓÒ²ĞĞ, µ«»¹ÊÇ¼ÓÉÏºÃ; Á½±ß¶¼»á¼ÆÊ±
+				// å®¢æˆ·ç«¯ä¸åŠ ä¹Ÿè¡Œ, ä½†è¿˜æ˜¯åŠ ä¸Šå¥½; ä¸¤è¾¹éƒ½ä¼šè®¡æ—¶
 				sc.pipeline().addLast(new ReadTimeoutHandler(5));
 				
 				sc.pipeline().addLast(new ClientHandler());
@@ -87,28 +87,28 @@ public class Client {
 	}
 	
 	/**
-	 * Á¬½Ó·½·¨
+	 * è¿æ¥æ–¹æ³•
 	 * @param host
 	 * @param port
 	 */
 	private void connect(String host, int port){
 		try {
 			cf = b.connect(host, port).sync();
-			System.out.println("Á¬½Ó¿Í»§¶Ë³É¹¦!");
+			System.out.println("è¿æ¥å®¢æˆ·ç«¯æˆåŠŸ!");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * Á¬½Ó·şÎñ¶Ë
+	 * è¿æ¥æœåŠ¡ç«¯
 	 */
 	public void connect(){
 		connect(host, port);
 	}
 	
 	public static void main(String[] args) throws Exception{
-		// Á¬½Ó·şÎñ¶Ë, Á¬½Ó³É¹¦ºó, »áÉèÖÃºÃChannelFutureÖµ
+		// è¿æ¥æœåŠ¡ç«¯, è¿æ¥æˆåŠŸå, ä¼šè®¾ç½®å¥½ChannelFutureå€¼
 		Client client =  getInstance();
 		String host = "localhost";
 		int port = 8765;
@@ -117,49 +117,49 @@ public class Client {
 		
 		client.connect();
 		
-		// ·¢ËÍĞÅÏ¢, Ã¿´Î·¢ËÍÍê³É, ĞİÃß4s, Á¬½Ó¶Ï¿ªÊ±¼äÎª5s, ËùÒÔ²»»á¶Ï¿ª
+		// å‘é€ä¿¡æ¯, æ¯æ¬¡å‘é€å®Œæˆ, ä¼‘çœ 4s, è¿æ¥æ–­å¼€æ—¶é—´ä¸º5s, æ‰€ä»¥ä¸ä¼šæ–­å¼€
 		ChannelFuture cf = client.getChannelFuture();
 		for(int i = 0; i < 3; i++){
 			Request request = new Request();
 			request.setId("" + i);
 			request.setName("pro" + i);
-			request.setRequestMessage("Êı¾İĞÅÏ¢" + i);
+			request.setRequestMessage("æ•°æ®ä¿¡æ¯" + i);
 			cf.channel().writeAndFlush(request);
 			Thread.sleep(4000);
 		}
 		
-		// ³ÌĞò×ßµ½Õâ, ËµÃ÷ÏÖÔÚ¿Í»§¶ËºÍserver¶ËµÄ·şÎñ¶Ï¿ªÁË,
-        // ÏÖÔÚclientÕâ¸ö¶ÔÏó»¹ÊÇ´æÔÚµÄ, Ö»ÊÇÍ¨µÀ¶Ï¿ªÁË
-		// ĞèÒªÖØĞÂÁ¬½Ó
+		// ç¨‹åºèµ°åˆ°è¿™, è¯´æ˜ç°åœ¨å®¢æˆ·ç«¯å’Œserverç«¯çš„æœåŠ¡æ–­å¼€äº†,
+        // ç°åœ¨clientè¿™ä¸ªå¯¹è±¡è¿˜æ˜¯å­˜åœ¨çš„, åªæ˜¯é€šé“æ–­å¼€äº†
+		// éœ€è¦é‡æ–°è¿æ¥
 		cf.channel().closeFuture().sync();
 		
-		// ¶Ï¿ªÁ¬½Óºó, Ïë¼ÌĞø·¢ËÍĞÅÏ¢
-		// Æô¶¯Ò»¸öĞÂÏß³Ì, ÖØĞÂÁ¬½Ó
+		// æ–­å¼€è¿æ¥å, æƒ³ç»§ç»­å‘é€ä¿¡æ¯
+		// å¯åŠ¨ä¸€ä¸ªæ–°çº¿ç¨‹, é‡æ–°è¿æ¥
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				System.out.println("½øÈë×Ó³ÌĞò......");
-				// ¹ÜµÀÊÇ·ñ¼¤»îÖĞ, ÊÇ·ñ´ò¿ª(´ËÊ±Ó¦¸ÃÊÇ¹Ø±ÕµÄ)
+				System.out.println("è¿›å…¥å­ç¨‹åº......");
+				// ç®¡é“æ˜¯å¦æ¿€æ´»ä¸­, æ˜¯å¦æ‰“å¼€(æ­¤æ—¶åº”è¯¥æ˜¯å…³é—­çš„)
 				System.out.println(cf.channel().isActive());
 				System.out.println(cf.channel().isOpen());
 				
-				// ÖØĞÂÁ¬½Ó, ·¢ËÍĞÅÏ¢
+				// é‡æ–°è¿æ¥, å‘é€ä¿¡æ¯
 				client.connect();
 				ChannelFuture cf = client.getChannelFuture();
 				Request request = new Request();
 				request.setId("" + 4);
 				request.setName("pro" + 4);
-				request.setRequestMessage("Êı¾İĞÅÏ¢" + 4);
+				request.setRequestMessage("æ•°æ®ä¿¡æ¯" + 4);
 				cf.channel().writeAndFlush(request);	
 				
-				// ·¢ËÍÍêĞÅÏ¢ºó, ×èÈûµ½Õâ, ÔÙ¹Ø±ÕÍ¨µÀºó, ÏòÏÂÖ´ĞĞ
+				// å‘é€å®Œä¿¡æ¯å, é˜»å¡åˆ°è¿™, å†å…³é—­é€šé“å, å‘ä¸‹æ‰§è¡Œ
 				try {
 					cf.channel().closeFuture().sync();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				System.out.println("×ÓÏß³Ì½áÊø.");
+				System.out.println("å­çº¿ç¨‹ç»“æŸ.");
 			}
 			
 		}).start();

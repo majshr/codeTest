@@ -26,51 +26,51 @@ public class Server {
 	}
 
 	private void start(){
-		//1, Æô¶¯Á½¸öÏß³Ì 
-		// ½áÊøclient¶ËÁ¬½Ó´¦Àí
+		//1, å¯åŠ¨ä¸¤ä¸ªçº¿ç¨‹ 
+		// ç»“æŸclientç«¯è¿æ¥å¤„ç†
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
-		// ÕæÕı´¦ÀíÈÎÎñ, ÍøÂçÍ¨ĞÅ, ÍøÂç¶ÁĞ´
+		// çœŸæ­£å¤„ç†ä»»åŠ¡, ç½‘ç»œé€šä¿¡, ç½‘ç»œè¯»å†™
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		
 		try{
-			// 2, ´´½¨¸¨Öú¹¤¾ßÀà, ÓÃÓÚ·şÎñÆ÷Í¨µÀµÄÏµÁĞÅäÖÃ
+			// 2, åˆ›å»ºè¾…åŠ©å·¥å…·ç±», ç”¨äºæœåŠ¡å™¨é€šé“çš„ç³»åˆ—é…ç½®
 			ServerBootstrap b = new ServerBootstrap();
-			b.group(bossGroup, workerGroup) // °ó¶¨Á½¸öÏß³Ì×é
-			.channel(NioServerSocketChannel.class) // Ö¸¶¨NIOµÄÄ£Ê½
-			.option(ChannelOption.SO_BACKLOG, 1024) // ÉèÖÃtcp»º³åÇø(tcp»º³åÇøÄÚºË, Ò»°ãÉèÖÃ100¶à¸ö¾ÍĞĞ)
-			.option(ChannelOption.SO_SNDBUF, 32*1024)	//ÉèÖÃ·¢ËÍ»º³å´óĞ¡
-			.option(ChannelOption.SO_RCVBUF, 32*1024)	//ÕâÊÇ·şÎñÆ÷¶Ë½ÓÊÕ»º³å´óĞ¡
-			.option(ChannelOption.SO_KEEPALIVE, true)	//±£³ÖÁ¬½Ó
-			.handler(new LoggingHandler(LogLevel.INFO)) //ÉèÖÃÆô¶¯Ê±, ´òÓ¡Æô¶¯ÈÕÖ¾
+			b.group(bossGroup, workerGroup) // ç»‘å®šä¸¤ä¸ªçº¿ç¨‹ç»„
+			.channel(NioServerSocketChannel.class) // æŒ‡å®šNIOçš„æ¨¡å¼
+			.option(ChannelOption.SO_BACKLOG, 1024) // è®¾ç½®tcpç¼“å†²åŒº(tcpç¼“å†²åŒºå†…æ ¸, ä¸€èˆ¬è®¾ç½®100å¤šä¸ªå°±è¡Œ)
+			.option(ChannelOption.SO_SNDBUF, 32*1024)	//è®¾ç½®å‘é€ç¼“å†²å¤§å°
+			.option(ChannelOption.SO_RCVBUF, 32*1024)	//è¿™æ˜¯æœåŠ¡å™¨ç«¯æ¥æ”¶ç¼“å†²å¤§å°
+			.option(ChannelOption.SO_KEEPALIVE, true)	//ä¿æŒè¿æ¥
+			.handler(new LoggingHandler(LogLevel.INFO)) //è®¾ç½®å¯åŠ¨æ—¶, æ‰“å°å¯åŠ¨æ—¥å¿—
 			.childHandler(new ChannelInitializer<SocketChannel>() {
 
 				@Override
 				protected void initChannel(SocketChannel ch) throws Exception {
-					// ÉèÖÃmarshalling±à½âÂëÆ÷
+					// è®¾ç½®marshallingç¼–è§£ç å™¨
 					ch.pipeline().addLast(MarshallingCodeFactory.buildMarshallingEncoder())
 					.addLast(MarshallingCodeFactory.buildMarshllingDecoder());
 					
-					// ³¬Ê±handler, µ±·şÎñÆ÷¶ËÓë¿Í»§¶ËÔÚÖ¸¶¨Ê±¼äÒÔÉÏÃ»ÓĞÈÎºÎÍ¨ĞÅ, Ôò»á¹Ø±ÕÏìÓ¦Í¨µÀ, Ö÷ÒªÎª¼õĞ¡·şÎñ×ÊÔ´Õ¼ÓÃ
+					// è¶…æ—¶handler, å½“æœåŠ¡å™¨ç«¯ä¸å®¢æˆ·ç«¯åœ¨æŒ‡å®šæ—¶é—´ä»¥ä¸Šæ²¡æœ‰ä»»ä½•é€šä¿¡, åˆ™ä¼šå…³é—­å“åº”é€šé“, ä¸»è¦ä¸ºå‡å°æœåŠ¡èµ„æºå ç”¨
 					// 5s
-					// ¿Í»§¶Ë²»¼ÓÒ²ĞĞ, µ«»¹ÊÇ¼ÓÉÏºÃ; Á½±ß¶¼»á¼ÆÊ±
+					// å®¢æˆ·ç«¯ä¸åŠ ä¹Ÿè¡Œ, ä½†è¿˜æ˜¯åŠ ä¸Šå¥½; ä¸¤è¾¹éƒ½ä¼šè®¡æ—¶
 					ch.pipeline().addLast(new ReadTimeoutHandler(5));
 					
-					//3, ÅäÖÃ¾ßÌåÊı¾İ½ÓÊÕ·½·¨µÄ´¦Àí
+					//3, é…ç½®å…·ä½“æ•°æ®æ¥æ”¶æ–¹æ³•çš„å¤„ç†
 					ch.pipeline().addLast(new ServerHandler());
 				}
 				
 			});
 			
-			// 4,½øĞĞ°ó¶¨
+			// 4,è¿›è¡Œç»‘å®š
 			ChannelFuture f = b.bind(this.port).sync();
-			System.out.println("·şÎñÒÑ¾­Æô¶¯, ¼àÌı¶Ë¿Ú" + this.port);
+			System.out.println("æœåŠ¡å·²ç»å¯åŠ¨, ç›‘å¬ç«¯å£" + this.port);
 			
-			// 5, µÈ´ı¹Ø±Õ
+			// 5, ç­‰å¾…å…³é—­
 			f.channel().closeFuture().sync();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}finally{
-			// ÊÍ·Å×ÊÔ´
+			// é‡Šæ”¾èµ„æº
 			bossGroup.shutdownGracefully();
 			workerGroup.shutdownGracefully();
 		}

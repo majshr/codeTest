@@ -9,7 +9,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 
 	
 	/**
-	 * Í¨µÀ¼¤»î
+	 * é€šé“æ¿€æ´»
 	 * @param ctx
 	 * @throws Exception
 	 */
@@ -20,18 +20,18 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 
 
 	/**
-	 * ½ÓÊÕµ½¿Í»§¶Ë´«À´µÄÊı¾İ
+	 * æ¥æ”¶åˆ°å®¢æˆ·ç«¯ä¼ æ¥çš„æ•°æ®
 	 * @param ctx
 	 * @param msg
 	 * @throws Exception
 	 */
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		// ½âÎö×Ô¶¯½âÎö³É×Ö·û´®
+		// è§£æè‡ªåŠ¨è§£ææˆå­—ç¬¦ä¸²
 		String body = (String) msg;
 		System.out.println("Server :" + body );
 		
-		// ¸ø¿Í»§¶ËÏàÓ¦ĞÅÏ¢ÊÇÒì²½µÄ, ¿ÉÒÔÍ¨¹ıÌí¼Ó»Øµ÷·½·¨, ÖªµÀÊÇ·ñ·¢ËÍĞÅÏ¢Íê³É
+		// ç»™å®¢æˆ·ç«¯ç›¸åº”ä¿¡æ¯æ˜¯å¼‚æ­¥çš„, å¯ä»¥é€šè¿‡æ·»åŠ å›è°ƒæ–¹æ³•, çŸ¥é“æ˜¯å¦å‘é€ä¿¡æ¯å®Œæˆ
 		ChannelFuture f = ctx.writeAndFlush(Unpooled.copiedBuffer(body.getBytes()));
 	}
 	

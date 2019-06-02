@@ -20,7 +20,7 @@ public class Client {
 		this.port = port;
 	}
 	public void start() throws InterruptedException, IOException{
-		// ¿Í»§¶Ë½ö·¢ËÍÇëÇó, ²»ĞèÒª´¦ÀíÇëÇóÁ¬½ÓµÄÏß³Ì×é
+		// å®¢æˆ·ç«¯ä»…å‘é€è¯·æ±‚, ä¸éœ€è¦å¤„ç†è¯·æ±‚è¿æ¥çš„çº¿ç¨‹ç»„
 		EventLoopGroup group = new NioEventLoopGroup();
 		Bootstrap b = new Bootstrap();
 		b.group(group)
@@ -28,7 +28,7 @@ public class Client {
 		.handler(new ChannelInitializer<SocketChannel>() {
 			@Override
 			protected void initChannel(SocketChannel sc) throws Exception {
-				// ÉèÖÃmarshalling±à½âÂëÆ÷
+				// è®¾ç½®marshallingç¼–è§£ç å™¨
 				sc.pipeline().addLast(MarshallingCodeFactory.buildMarshallingEncoder())
 				.addLast(MarshallingCodeFactory.buildMarshllingDecoder());
 				
@@ -36,24 +36,24 @@ public class Client {
 			}
 		});
 		
-		// Á¬½Ó·şÎñ¶Ë
+		// è¿æ¥æœåŠ¡ç«¯
 		ChannelFuture cf = b.connect("127.0.0.1", port).sync();
 		
-		// ·¢ËÍĞÅÏ¢
+		// å‘é€ä¿¡æ¯
 		for(int i = 0; i < 5; i++){
 			Request request = new Request();
 			request.setId("" + i);
 			request.setName("pro" + i);
-			request.setRequestMessage("Êı¾İĞÅÏ¢" + i);
+			request.setRequestMessage("æ•°æ®ä¿¡æ¯" + i);
 			
-			// ÉèÖÃÎÄ¼şĞÅÏ¢
+			// è®¾ç½®æ–‡ä»¶ä¿¡æ¯
 			FileInputStream fileInputStream = 
 					new FileInputStream(new File("C:\\Users\\maj\\Desktop\\spring.java"));
-			// ¶ÁÈ¡ÎÄ¼şĞÅÏ¢µ½¶ş½øÖÆÁ÷
+			// è¯»å–æ–‡ä»¶ä¿¡æ¯åˆ°äºŒè¿›åˆ¶æµ
 			byte[] data = new byte[fileInputStream.available()];
 			fileInputStream.read(data);
 			
-			// ½«Ñ¹ËõÊı¾İ·Å½øÇëÇó
+			// å°†å‹ç¼©æ•°æ®æ”¾è¿›è¯·æ±‚
 			request.setAttachment(GzipUtils.gzip(data));
 			
 			cf.channel().writeAndFlush(request);

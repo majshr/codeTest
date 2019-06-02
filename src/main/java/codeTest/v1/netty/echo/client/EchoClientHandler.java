@@ -1,16 +1,15 @@
 package codeTest.v1.netty.echo.client;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 
 /**
- * ChannelInboundHandlerAdapterÔÚ´¦ÀíÍêÏûÏ¢ºóĞèÒª¸ºÔğÊÍ·Å×ÊÔ´¡£ÔÚÕâÀï½«µ÷ÓÃByteBuf.release()À´ÊÍ·Å×ÊÔ´¡£
- * SimpleChannelInboundHandler»áÔÚÍê³ÉchannelRead0ºóÊÍ·ÅÏûÏ¢£¬ÕâÊÇÍ¨¹ıNetty´¦ÀíËùÓĞÏûÏ¢µÄ
- * ChannelHandlerÊµÏÖÁËReferenceCounted½Ó¿Ú´ïµ½µÄ¡£
+ * ChannelInboundHandlerAdapteråœ¨å¤„ç†å®Œæ¶ˆæ¯åéœ€è¦è´Ÿè´£é‡Šæ”¾èµ„æºã€‚åœ¨è¿™é‡Œå°†è°ƒç”¨ByteBuf.release()æ¥é‡Šæ”¾èµ„æºã€‚
+ * SimpleChannelInboundHandlerä¼šåœ¨å®ŒæˆchannelRead0åé‡Šæ”¾æ¶ˆæ¯ï¼Œè¿™æ˜¯é€šè¿‡Nettyå¤„ç†æ‰€æœ‰æ¶ˆæ¯çš„
+ * ChannelHandlerå®ç°äº†ReferenceCountedæ¥å£è¾¾åˆ°çš„ã€‚
  * 
  * @author maj
  *

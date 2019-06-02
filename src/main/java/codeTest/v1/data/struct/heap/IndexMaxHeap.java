@@ -166,12 +166,12 @@ public class IndexMaxHeap {
 	
 	public static void main(String[] args) {
 		IndexMaxHeap heap = new IndexMaxHeap(6);
-		heap.insert(100);
-		heap.insert(0);
-		heap.insert(1);
-		heap.insert(10);
-		heap.insert(8);
-		heap.insert(7);
+//		heap.insert(100);
+//		heap.insert(0);
+//		heap.insert(1);
+//		heap.insert(10);
+//		heap.insert(8);
+//		heap.insert(7);
 		SortHelper.printArr(heap.data);
 		
 		heap.extractMax();

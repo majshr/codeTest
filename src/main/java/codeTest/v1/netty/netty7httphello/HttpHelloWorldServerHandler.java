@@ -25,26 +25,26 @@ public class HttpHelloWorldServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-		  // È¥¹ıÊÇhttpÇëÇó
+		  // å»è¿‡æ˜¯httpè¯·æ±‚
         if (msg instanceof HttpRequest) {
             HttpRequest req = (HttpRequest) msg;
 
             if (HttpHeaders.is100ContinueExpected(req)) {
                 ctx.write(new DefaultFullHttpResponse(HTTP_1_1, CONTINUE));
             }
-			  // ÇëÇóÊÇ·ñÒ»Ö±»î×Å
+			  // è¯·æ±‚æ˜¯å¦ä¸€ç›´æ´»ç€
             boolean keepAlive = HttpHeaders.isKeepAlive(req);
-			  // ÏìÓ¦Êı¾İ·Åµ½¶ÔÏóÀï
+			  // å“åº”æ•°æ®æ”¾åˆ°å¯¹è±¡é‡Œ
             FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(CONTENT));
-			  // ÉèÖÃÒ»Ğ©ÇëÇóÍ·
+			  // è®¾ç½®ä¸€äº›è¯·æ±‚å¤´
             response.headers().set(CONTENT_TYPE, "text/plain");
             response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
 
             if (!keepAlive) {
-				  // Èç¹û²»Ò»Ö±»î×Å, ·¢ËÍÏìÓ¦Êı¾İ, ¾Í¹Ø±ÕÁ¬½Ó
+				  // å¦‚æœä¸ä¸€ç›´æ´»ç€, å‘é€å“åº”æ•°æ®, å°±å…³é—­è¿æ¥
                 ctx.write(response).addListener(ChannelFutureListener.CLOSE);
             } else {
-				  // Èç¹ûÒ»Ö±»î×Å, ±£³ÖÁ¬½Ó
+				  // å¦‚æœä¸€ç›´æ´»ç€, ä¿æŒè¿æ¥
                 response.headers().set(CONNECTION, HttpHeaderValues.KEEP_ALIVE);
                 ctx.write(response);
             }

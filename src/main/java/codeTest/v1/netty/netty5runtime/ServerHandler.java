@@ -15,7 +15,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 
 	
 	/**
-	 * Í¨µÀ¼¤»î
+	 * é€šé“æ¿€æ´»
 	 * @param ctx
 	 * @throws Exception
 	 */
@@ -26,22 +26,22 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 
 
 	/**
-	 * ½ÓÊÕµ½¿Í»§¶Ë´«À´µÄÊı¾İ
+	 * æ¥æ”¶åˆ°å®¢æˆ·ç«¯ä¼ æ¥çš„æ•°æ®
 	 * @param ctx
 	 * @param msg
 	 * @throws Exception
 	 */
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		// ÊÕµ½ÇëÇóĞÅÏ¢
+		// æ”¶åˆ°è¯·æ±‚ä¿¡æ¯
 		Request request = (Request)msg;
 		System.out.println("Server : " + request.toString());
 		
-		// ·µ»ØÏìÓ¦ĞÅÏ¢
+		// è¿”å›å“åº”ä¿¡æ¯
 		Response response = new Response();
 		response.setId(request.getId());
 		response.setName("response" + request.getId());
-		response.setResponseMessage("ÏìÓ¦ÄÚÈİ" + request.getId());
+		response.setResponseMessage("å“åº”å†…å®¹" + request.getId());
 		ctx.writeAndFlush(response);
 	}
 	

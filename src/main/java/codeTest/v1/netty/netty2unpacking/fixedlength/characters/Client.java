@@ -21,7 +21,7 @@ public class Client {
 		this.port = port;
 	}
 	public void start() throws InterruptedException{
-		// ¿Í»§¶Ë½ö·¢ËÍÇëÇó, ²»ĞèÒª´¦ÀíÇëÇóÁ¬½ÓµÄÏß³Ì×é
+		// å®¢æˆ·ç«¯ä»…å‘é€è¯·æ±‚, ä¸éœ€è¦å¤„ç†è¯·æ±‚è¿æ¥çš„çº¿ç¨‹ç»„
 		EventLoopGroup group = new NioEventLoopGroup();
 		Bootstrap b = new Bootstrap();
 		b.group(group)
@@ -29,20 +29,20 @@ public class Client {
 		.handler(new ChannelInitializer<SocketChannel>() {
 			@Override
 			protected void initChannel(SocketChannel sc) throws Exception {
-				// ³¤¶ÈËæ±ãÖ¸¶¨µÄ, Ö»ÊÇ¹»5Î», µ±³ÉÍ¬Ò»¿éÊı¾İ
+				// é•¿åº¦éšä¾¿æŒ‡å®šçš„, åªæ˜¯å¤Ÿ5ä½, å½“æˆåŒä¸€å—æ•°æ®
 				sc.pipeline().addLast(new FixedLengthFrameDecoder(5));;
-				// ÉèÖÃ×Ö·û´®ĞÎÊ½µÄ½âÂë(¿Í»§¶Ë·¢ËÍÏûÏ¢Ê±, ¿ÉÒÔÖ±½Ó·¢ËÍ×Ö·û´®)
+				// è®¾ç½®å­—ç¬¦ä¸²å½¢å¼çš„è§£ç (å®¢æˆ·ç«¯å‘é€æ¶ˆæ¯æ—¶, å¯ä»¥ç›´æ¥å‘é€å­—ç¬¦ä¸²)
 				sc.pipeline().addLast(new StringDecoder());
 				
 				sc.pipeline().addLast(new ClientHandler());
 			}
 		});
 		
-		// Á¬½Ó·şÎñ¶Ë
+		// è¿æ¥æœåŠ¡ç«¯
 		ChannelFuture cf1 = b.connect("127.0.0.1", port).sync();
-		System.out.println("Á¬½Ó" + port + ".....");
-		// ·¢Êı¾İµÄÊ±ºò»¹ÊÇĞèÒª·¢ËÍbuf, ·¢µ½ÁíÒ»¶Ëºó»áÖ±½Ó½âÎöÎª×Ö·û´®
-		//·¢ËÍÏûÏ¢ cf.channel() »ñÈ¡Í¨ĞÅ¹ÜµÀ
+		System.out.println("è¿æ¥" + port + ".....");
+		// å‘æ•°æ®çš„æ—¶å€™è¿˜æ˜¯éœ€è¦å‘é€buf, å‘åˆ°å¦ä¸€ç«¯åä¼šç›´æ¥è§£æä¸ºå­—ç¬¦ä¸²
+		//å‘é€æ¶ˆæ¯ cf.channel() è·å–é€šä¿¡ç®¡é“
 		cf1.channel().writeAndFlush(Unpooled.copiedBuffer("7777777".getBytes()));
 		cf1.channel().writeAndFlush(Unpooled.copiedBuffer("88888".getBytes()));
 		

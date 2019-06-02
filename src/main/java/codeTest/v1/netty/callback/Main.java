@@ -2,6 +2,7 @@ package codeTest.v1.netty.callback;
 
 public class Main {
 	public static void main(String[] args) {
+		// 调用fetcher方法
 		Fetcher fetcher = new MyFetcher(new Data(1, 2));
 		fetcher.fetchData(new FetcherCallBack() {
 			

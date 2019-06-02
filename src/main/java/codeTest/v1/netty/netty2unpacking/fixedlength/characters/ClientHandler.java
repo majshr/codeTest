@@ -8,7 +8,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter{
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		try {
-			// ¶ÁÈ¡·şÎñ¶Ë·µ»ØµÄÏûÏ¢, ½ö¶ÁÈ¡ÏûÏ¢²Ù×÷, ĞèÒª¶ÁÈ¡Íê³Éºó, Çå¿Õ»º³åÇø
+			// è¯»å–æœåŠ¡ç«¯è¿”å›çš„æ¶ˆæ¯, ä»…è¯»å–æ¶ˆæ¯æ“ä½œ, éœ€è¦è¯»å–å®Œæˆå, æ¸…ç©ºç¼“å†²åŒº
 			String response = (String) msg;
 			System.out.println(response);
 		} finally {

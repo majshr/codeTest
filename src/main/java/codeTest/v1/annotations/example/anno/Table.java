@@ -6,8 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * ¶ÔÏóÓëÊı¾İ¿â±íÓ³Éä
- * ÉúÃüÖÜÆÚÔËĞĞÊ±ÓĞĞ§, ÓÃÓÚÃèÊöÀà
+ * å¯¹è±¡ä¸æ•°æ®åº“è¡¨æ˜ å°„
+ * ç”Ÿå‘½å‘¨æœŸè¿è¡Œæ—¶æœ‰æ•ˆ, ç”¨äºæè¿°ç±»
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

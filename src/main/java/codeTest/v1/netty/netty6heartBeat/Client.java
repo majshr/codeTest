@@ -37,7 +37,7 @@ public class Client {
 	}
 	
 	/**
-	 * »ñÈ¡ChannelFuture¶ÔÏó(Èç¹ûchannel¹Ø±Õ, ÖØĞÂÁ¬½Ó)
+	 * è·å–ChannelFutureå¯¹è±¡(å¦‚æœchannelå…³é—­, é‡æ–°è¿æ¥)
 	 * @return
 	 */
 	public ChannelFuture getChannelFuture(){
@@ -53,14 +53,14 @@ public class Client {
 	}
 
 	/**
-	 * ¿Í»§¶Ëµ¥Àı
+	 * å®¢æˆ·ç«¯å•ä¾‹
 	 */
 	public static Client getInstance(){
 		return Instance.instance;
 	}
 	
 	/**
-	 * ³õÊ¼»¯Ê±, ´´½¨Á¬½Ó
+	 * åˆå§‹åŒ–æ—¶, åˆ›å»ºè¿æ¥
 	 */
 	private Client(){
 		group = new NioEventLoopGroup();
@@ -70,13 +70,13 @@ public class Client {
 		.handler(new ChannelInitializer<SocketChannel>() {
 			@Override
 			protected void initChannel(SocketChannel sc) throws Exception {
-				// ÉèÖÃmarshalling±à½âÂëÆ÷
+				// è®¾ç½®marshallingç¼–è§£ç å™¨
 				sc.pipeline().addLast(MarshallingCodeFactory.buildMarshallingEncoder())
 				.addLast(MarshallingCodeFactory.buildMarshllingDecoder());
 				
-				// ³¬Ê±handler, µ±·şÎñÆ÷¶ËÓë¿Í»§¶ËÔÚÖ¸¶¨Ê±¼äÒÔÉÏÃ»ÓĞÈÎºÎÍ¨ĞÅ, Ôò»á¹Ø±ÕÏìÓ¦Í¨µÀ, Ö÷ÒªÎª¼õĞ¡·şÎñ×ÊÔ´Õ¼ÓÃ
+				// è¶…æ—¶handler, å½“æœåŠ¡å™¨ç«¯ä¸å®¢æˆ·ç«¯åœ¨æŒ‡å®šæ—¶é—´ä»¥ä¸Šæ²¡æœ‰ä»»ä½•é€šä¿¡, åˆ™ä¼šå…³é—­å“åº”é€šé“, ä¸»è¦ä¸ºå‡å°æœåŠ¡èµ„æºå ç”¨
 				// 5s
-				// ¿Í»§¶Ë²»¼ÓÒ²ĞĞ, µ«»¹ÊÇ¼ÓÉÏºÃ; Á½±ß¶¼»á¼ÆÊ±
+				// å®¢æˆ·ç«¯ä¸åŠ ä¹Ÿè¡Œ, ä½†è¿˜æ˜¯åŠ ä¸Šå¥½; ä¸¤è¾¹éƒ½ä¼šè®¡æ—¶
 				sc.pipeline().addLast(new ReadTimeoutHandler(5));
 				
 				sc.pipeline().addLast(new ClientHandler());
@@ -85,7 +85,7 @@ public class Client {
 	}
 	
 	/**
-	 * Á¬½Ó·½·¨
+	 * è¿æ¥æ–¹æ³•
 	 * @param host
 	 * @param port
 	 */
@@ -98,26 +98,26 @@ public class Client {
 	}
 	
 	/**
-	 * Á¬½Ó·şÎñ¶Ë
+	 * è¿æ¥æœåŠ¡ç«¯
 	 */
 	public void connect(){
 		connect(host, port);
 	}
 	
 	public static void main(String[] args) throws Exception{
-		// Á¬½Ó·şÎñ¶Ë, Á¬½Ó³É¹¦ºó, »áÉèÖÃºÃChannelFutureÖµ
+		// è¿æ¥æœåŠ¡ç«¯, è¿æ¥æˆåŠŸå, ä¼šè®¾ç½®å¥½ChannelFutureå€¼
 		Client client =  getInstance();
 		String host = "localhost";
 		int port = 8765;
 		client.setHost(host);
 		client.setPort(port);
 		
-		// Á¬½Ó, »ñÈ¡ChannelFuture
+		// è¿æ¥, è·å–ChannelFuture
 		client.connect();
 		ChannelFuture cf = client.getChannelFuture();
 		
-		// ³ÌĞò×ßµ½Õâ, ËµÃ÷ÏÖÔÚ¿Í»§¶ËºÍserver¶ËµÄ·şÎñ¶Ï¿ªÁË,
-        // ÏÖÔÚclientÕâ¸ö¶ÔÏó»¹ÊÇ´æÔÚµÄ, Ö»ÊÇÍ¨µÀ¶Ï¿ªÁË
+		// ç¨‹åºèµ°åˆ°è¿™, è¯´æ˜ç°åœ¨å®¢æˆ·ç«¯å’Œserverç«¯çš„æœåŠ¡æ–­å¼€äº†,
+        // ç°åœ¨clientè¿™ä¸ªå¯¹è±¡è¿˜æ˜¯å­˜åœ¨çš„, åªæ˜¯é€šé“æ–­å¼€äº†
 		cf.channel().closeFuture().sync();
 		client.getEventLoopGroup().shutdownGracefully();
 	}

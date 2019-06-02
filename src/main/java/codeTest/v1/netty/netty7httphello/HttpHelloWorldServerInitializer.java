@@ -20,7 +20,7 @@ public class HttpHelloWorldServerInitializer extends ChannelInitializer<SocketCh
         if (sslCtx != null) {
             p.addLast(sslCtx.newHandler(ch.alloc()));
         }
-		  // Ö»Òª¼ÓÁËÕâ¸ö, ¾Í¿ÉÒÔÖ§³ÖhttpÐ­ÒéÁË, ¿ÉÒÔÖ±½Ó°ÑÇëÇó·â×°³Éhttp¶ÔÏó
+		  // åªè¦åŠ äº†è¿™ä¸ª, å°±å¯ä»¥æ”¯æŒhttpåè®®äº†, å¯ä»¥ç›´æŽ¥æŠŠè¯·æ±‚å°è£…æˆhttpå¯¹è±¡
         p.addLast(new HttpServerCodec());
         p.addLast(new HttpHelloWorldServerHandler());
     }

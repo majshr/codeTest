@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 /**
- * ĞòÁĞ»¯Ò»¶¨ÒªÊµÏÖSerializable½Ó¿Ú Èç¹ûÊÇÁ½¸önettyÏîÄ¿³ÌĞòÏà»¥Í¨ĞÅ, ReqºÍRespÔÚÁ½¸öÏîÄ¿±ØĞë¶¼´æÔÚ,
- * ÇÒ°üÂ·¾¶±ØĞëÏàÍ¬, ·ñÔòĞòÁĞ»¯²»ÄÜ³É¹¦
+ * åºåˆ—åŒ–ä¸€å®šè¦å®ç°Serializableæ¥å£ å¦‚æœæ˜¯ä¸¤ä¸ªnettyé¡¹ç›®ç¨‹åºç›¸äº’é€šä¿¡, Reqå’ŒRespåœ¨ä¸¤ä¸ªé¡¹ç›®å¿…é¡»éƒ½å­˜åœ¨,
+ * ä¸”åŒ…è·¯å¾„å¿…é¡»ç›¸åŒ, å¦åˆ™åºåˆ—åŒ–ä¸èƒ½æˆåŠŸ
  */
 public class Request implements Serializable{
 	/**
@@ -15,11 +15,11 @@ public class Request implements Serializable{
 
 	private String ip ;
 	/**
-	 * cpuĞÅÏ¢
+	 * cpuä¿¡æ¯
 	 */
 	private HashMap<String, Object> cpuPercMap ;
 	/**
-	 * ÄÚ´æĞÅÏ¢
+	 * å†…å­˜ä¿¡æ¯
 	 */
 	private HashMap<String, Object> memoryMap;
 	@Override

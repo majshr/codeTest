@@ -2,7 +2,7 @@ package codeTest.v1.data.struct;
 
 public class Utils {
 	/**
-	 * 交换数组两个位置元素
+	 * 浜ゆ崲涓や釜鍏冪礌
 	 * @param arr
 	 * @param i
 	 * @param j

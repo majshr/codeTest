@@ -11,9 +11,10 @@ public class Test {
 		Socket socket = new Socket("localhost", 8765);
 		OutputStream os = socket.getOutputStream();
 		PrintWriter pw =new PrintWriter(os);
-		pw.write("用户名：admin；密码：123");
+		pw.write("鐢ㄦ埛鍚嶏細admin锛涘瘑鐮侊細123");
 		pw.flush();
 		socket.shutdownOutput();
-		System.out.println("连接成功!");
+		System.out.println("杩炴帴鎴愬姛!");
 	}
 }
+

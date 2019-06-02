@@ -1,7 +1,7 @@
 package codeTest.v1.annotations;
 
 /**
- * ×÷Õß×¢½â, ½öÓĞÒ»¸öÊôĞÔ, Ïàµ±ÓÚ×÷ÕßÃû
+ * ä½œè€…æ³¨è§£, ä»…æœ‰ä¸€ä¸ªå±æ€§, ç›¸å½“äºä½œè€…å
  */
 public @interface Author {
 	String value() default "maj"; 

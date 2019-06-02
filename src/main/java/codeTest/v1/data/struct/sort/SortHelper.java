@@ -6,7 +6,7 @@ import codeTest.v1.data.struct.heap.MaxHeap;
 
 public class SortHelper {
 	/**
-	 * 生成随机数组
+	 * 鐢熸垚闅忔満鏁扮粍
 	 * @param n
 	 * @param left
 	 * @param right
@@ -14,7 +14,7 @@ public class SortHelper {
 	 */
 	public static int[] generateRandomArray(int n, int left, int right){
 		if(right <= left){
-			throw new RuntimeException("right和left参数错误!");
+			throw new RuntimeException("right鍜宭eft鍙傛暟閿欒!");
 		}
 		
 		int diff = right - left;
@@ -27,7 +27,7 @@ public class SortHelper {
 	}
 	
 	/**
-	 * 打印数组
+	 * 鎵撳嵃鏁扮粍
 	 * @param arr
 	 */
 	public static void printArr(int[] arr){

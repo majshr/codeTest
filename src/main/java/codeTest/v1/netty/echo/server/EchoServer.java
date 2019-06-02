@@ -26,26 +26,26 @@ public class EchoServer {
 	}
 	
 	public void start() throws Exception{
-		// ½ÓÊÕºÍ´¦ÀíĞÂÁ¬½Ó
+		// æ¥æ”¶å’Œå¤„ç†æ–°è¿æ¥
 		EventLoopGroup group = new NioEventLoopGroup();
 		try{
 			ServerBootstrap b = new ServerBootstrap();
 			b.group(group).channel(NioServerSocketChannel.class)
 			.localAddress(port)
-			.childHandler(new ChannelInitializer<Channel>() {// Ö¸¶¨Á¬½Óºóµ÷ÓÃµÄChannelHandler
+			.childHandler(new ChannelInitializer<Channel>() {// æŒ‡å®šè¿æ¥åè°ƒç”¨çš„ChannelHandler
 
 				@Override
 				protected void initChannel(Channel ch) throws Exception {
 //					ch.pipeline().addLast(new EchoServerHandler());
 					
 					
-					// Í¨¹ıÍ¨µÀÏòÁ¬½ÓĞ´Êı¾İ, ¼àÌıĞ´Êı¾İÍê³É 
+					// é€šè¿‡é€šé“å‘è¿æ¥å†™æ•°æ®, ç›‘å¬å†™æ•°æ®å®Œæˆ 
 					ChannelFuture f = ch.writeAndFlush(buf);
 					f.addListener(new ChannelFutureListener() {
 						
 						public void operationComplete(ChannelFuture future) throws Exception {
 							if(future.isSuccess()){
-								System.out.println("·¢ËÍÊı¾İ³É¹¦");
+								System.out.println("å‘é€æ•°æ®æˆåŠŸ");
 							}
 						}
 					});
@@ -53,11 +53,11 @@ public class EchoServer {
 				}
 			});
 			
-			// ×èÈûÖªµÀ·şÎñÆ÷Íê³É°ó¶¨
+			// é˜»å¡çŸ¥é“æœåŠ¡å™¨å®Œæˆç»‘å®š
 			ChannelFuture f = b.bind().sync();
-			System.out.println("·şÎñÆô¶¯.........");
+			System.out.println("æœåŠ¡å¯åŠ¨.........");
 			
-			// ¹Ø±Õ²Ù×÷, Ò²»á×èÈû
+			// å…³é—­æ“ä½œ, ä¹Ÿä¼šé˜»å¡
 			f.channel().closeFuture().sync();
 		}finally{
 			group.shutdownGracefully().sync();
@@ -70,22 +70,22 @@ public class EchoServer {
 	
 	private void compositeByteBufTest(){
 		CompositeByteBuf compBuf = Unpooled.compositeBuffer();
-		// ¶Ñ»º³åÇø
+		// å †ç¼“å†²åŒº
 		ByteBuf heapBuf = Unpooled.buffer(8);
-		// Ö±½Ó»º³åÇø
+		// ç›´æ¥ç¼“å†²åŒº
 		ByteBuf directBuf = Unpooled.directBuffer(16);
 		compBuf.addComponents(heapBuf, directBuf);
 		
-		// É¾³ıµÚÒ»¸ö»º³åÇø
+		// åˆ é™¤ç¬¬ä¸€ä¸ªç¼“å†²åŒº
 		compBuf.removeComponent(0);
 		
-		// ±éÀú¸´ºÏ»º³åÇø
+		// éå†å¤åˆç¼“å†²åŒº
 		Iterator<ByteBuf> iter = compBuf.iterator();
 		while(iter.hasNext()){
 			System.out.println(iter.next().toString());
 		}
 		
-		// Ê¹ÓÃÊı×é·ÃÎÊ
+		// ä½¿ç”¨æ•°ç»„è®¿é—®
 		if(!compBuf.hasArray()){
 			int len = compBuf.readableBytes();
 			byte[] arr = new byte[len];
@@ -94,7 +94,7 @@ public class EchoServer {
 	}
 	
 	public void bufTest(){
-		// Í¨¹ıË÷Òı·ÃÎÊ, ²»»áÍÆ½ø¶ÁË÷ÒıºÍĞ´Ë÷Òı, ¿ÉÒÔÍ¨¹ıreaderIndex()ºÍwriterIndex()ÍÆ½ø
+		// é€šè¿‡ç´¢å¼•è®¿é—®, ä¸ä¼šæ¨è¿›è¯»ç´¢å¼•å’Œå†™ç´¢å¼•, å¯ä»¥é€šè¿‡readerIndex()å’ŒwriterIndex()æ¨è¿›
 		ByteBuf buf = Unpooled.buffer(16);
 		for(int i = 0; i < 16; i++){
 			buf.writeByte(i + 1);
@@ -104,22 +104,22 @@ public class EchoServer {
 			System.out.println(buf.getByte(i));
 		}
 		
-		/* ·ÏÆú×Ö½Ú, ¶ªÆú´ÓË÷Òı0µ½readIndexÖ®¼äµÄ×Ö½Ú, ¿ÉÒÔÓÃÀ´Çå¿ÕByteBufÖĞÒÑ¾­¶ÁÈ¡µÄÊı¾İ, ´Ó¶øÊ¹
-		   ByteBufÓĞ¶àÓàµÄ¿Õ¼äÈİÄÉĞÂÊı¾İ, µ«»áÉæ¼°µ½ÄÚ´æ¸´ÖÆ, ÒÆ¶¯¿É¶Á×Ö½Úµ½¿ªÊ¼Î»ÖÃ, ¿ÉÄÜ»áÓ°ÏìĞÔÄÜ.*/
+		/* åºŸå¼ƒå­—èŠ‚, ä¸¢å¼ƒä»ç´¢å¼•0åˆ°readIndexä¹‹é—´çš„å­—èŠ‚, å¯ä»¥ç”¨æ¥æ¸…ç©ºByteBufä¸­å·²ç»è¯»å–çš„æ•°æ®, ä»è€Œä½¿
+		   ByteBufæœ‰å¤šä½™çš„ç©ºé—´å®¹çº³æ–°æ•°æ®, ä½†ä¼šæ¶‰åŠåˆ°å†…å­˜å¤åˆ¶, ç§»åŠ¨å¯è¯»å­—èŠ‚åˆ°å¼€å§‹ä½ç½®, å¯èƒ½ä¼šå½±å“æ€§èƒ½.*/
 		buf.discardReadBytes();
 		
-		/*Ñ­»·¶ÁÈ¡, Ö±µ½¶ÁÍê*/
+		/*å¾ªç¯è¯»å–, ç›´åˆ°è¯»å®Œ*/
 		while(buf.isReadable()){
 			System.out.println(buf.readByte());
 		}
 		
-		/*Ñ­»·Ğ´Èë, Ö±µ½Ğ´Íê*/
+		/*å¾ªç¯å†™å…¥, ç›´åˆ°å†™å®Œ*/
 		Random random = new Random();
 		while(buf.isWritable()){
 			buf.writeInt(random.nextInt());
 		}
 		
-		/*»º³åÇø»Ö¸´Îª³õÊ¼, read/write index¾ùÎª0*/
+		/*ç¼“å†²åŒºæ¢å¤ä¸ºåˆå§‹, read/write indexå‡ä¸º0*/
 		buf.clear();
 	}
 }
